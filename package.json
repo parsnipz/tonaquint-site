@@ -2,6 +2,12 @@
   "name": "tonaquint-site",
   "private": true,
   "type": "module",
-  "scripts": { "build": "node scripts/build.mjs", "test": "node --test test/*.test.mjs" },
-  "engines": { "node": ">=20" }
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node --test test/*.test.mjs",
+    "dev": "node scripts/build.mjs && node scripts/dev-server.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
 }

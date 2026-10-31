@@ -1,1 +1,8 @@
-{ "buildCommand": "node scripts/build.mjs", "outputDirectory": "public", "cleanUrls": true, "trailingSlash": false }
+{
+  "buildCommand": "node scripts/build.mjs",
+  "outputDirectory": "public",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [{ "source": "/mcp", "destination": "/api/mcp" }],
+  "headers": [{ "source": "/.well-known/(.*)", "headers": [{ "key": "Access-Control-Allow-Origin", "value": "*" }, { "key": "Content-Type", "value": "application/json" }] }]
+}
