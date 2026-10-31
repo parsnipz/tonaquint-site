@@ -1,0 +1,11 @@
+[
+  {
+    "id": "db-painting",
+    "name": "D&B Painting",
+    "trades": ["painting", "stucco painting", "elastomeric coating"],
+    "service_area": "St. George area",
+    "towns": ["St. George"],
+    "phone": "(435) 218-5727",
+    "email": "bkbbuilding24@gmail.com"
+  }
+]
