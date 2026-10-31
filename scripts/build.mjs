@@ -53,6 +53,11 @@ export function build(outDir = path.join(root, 'public')) {
   w('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls.map(u => `<url><loc>${SITE}${u}</loc></url>`).join('')}</urlset>\n`);
   w('robots.txt', `User-agent: *\nAllow: /\nSitemap: ${SITE}/sitemap.xml\n`);
   w('feed.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0"><channel><title>Tonaquint</title><link>${SITE}/</link><description>Posts and thoughts from a new homeowner.</description>${posts.map(p => `<item><title>${esc(p.title)}</title><link>${SITE}/posts/${p.slug}</link><guid>${SITE}/posts/${p.slug}</guid><pubDate>${new Date(p.date).toUTCString()}</pubDate><description>${esc(p.description)}</description></item>`).join('')}</channel></rss>\n`);
+  const card = { name: 'tonaquint-referrals', title: 'Tonaquint referrals', description: 'Read-only directory of local contractors we recommend around St. George, Utah.',
+    version: '0.1.0', transport: { type: 'streamable-http', url: `${SITE}/mcp` }, endpoint: `${SITE}/mcp`, authentication: { required: false },
+    tools: ['list_subs', 'recommend_sub', 'get_sub'] };
+  w('.well-known/mcp.json', JSON.stringify(card, null, 2));
+  w('.well-known/mcp/server-card.json', JSON.stringify(card, null, 2));
   return { posts, urls, w };
 }
 if (process.argv[1] === new URL(import.meta.url).pathname) { const r = build(); console.log(`built ${r.urls.length} pages`); }

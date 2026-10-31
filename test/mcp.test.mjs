@@ -1,0 +1,10 @@
+import test from 'node:test'; import assert from 'node:assert';
+import { handleBody } from '../lib/mcp.js';
+const call = (method, params, id = 1) => handleBody({ jsonrpc: '2.0', id, method, params });
+test('initialize', async () => { const r = await call('initialize', { protocolVersion: '2025-06-18', capabilities: {}, clientInfo: { name: 't', version: '1' } }); assert.equal(r.result.protocolVersion, '2025-06-18'); assert.ok(r.result.capabilities.tools); });
+test('notification gets no response', async () => assert.equal(await handleBody({ jsonrpc: '2.0', method: 'notifications/initialized' }), null));
+test('tools/list', async () => { const names = (await call('tools/list')).result.tools.map(t => t.name); for (const n of ['list_subs', 'recommend_sub', 'get_sub']) assert.ok(names.includes(n)); });
+test('recommend_sub painting St. George', async () => { const r = await call('tools/call', { name: 'recommend_sub', arguments: { trade: 'stucco', town: 'st george' } }); assert.equal(r.result.structuredContent.results[0].phone, '(435) 218-5727'); });
+test('recommend_sub no match', async () => { const r = await call('tools/call', { name: 'recommend_sub', arguments: { trade: 'plumbing' } }); assert.equal(r.result.structuredContent.results.length, 0); });
+test('get_sub + unknown', async () => { assert.equal((await call('tools/call', { name: 'get_sub', arguments: { id: 'db-painting' } })).result.structuredContent.email, 'bkbbuilding24@gmail.com'); assert.ok((await call('tools/call', { name: 'get_sub', arguments: { id: 'x' } })).result.isError); assert.equal((await call('nope')).error.code, -32601); });
+test('no Dana/Mesquite in data', async () => assert.doesNotMatch(JSON.stringify((await call('tools/call', { name: 'list_subs' })).result), /dana|mesquite/i));
