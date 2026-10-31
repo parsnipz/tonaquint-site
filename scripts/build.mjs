@@ -55,7 +55,7 @@ export function build(outDir = path.join(root, 'public')) {
   w('feed.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0"><channel><title>Tonaquint</title><link>${SITE}/</link><description>Posts and thoughts from a new homeowner.</description>${posts.map(p => `<item><title>${esc(p.title)}</title><link>${SITE}/posts/${p.slug}</link><guid>${SITE}/posts/${p.slug}</guid><pubDate>${new Date(p.date).toUTCString()}</pubDate><description>${esc(p.description)}</description></item>`).join('')}</channel></rss>\n`);
   const card = { name: 'tonaquint-referrals', title: 'Tonaquint referrals', description: 'Read-only directory of local contractors we recommend around St. George, Utah.',
     version: '0.1.0', transport: { type: 'streamable-http', url: `${SITE}/mcp` }, endpoint: `${SITE}/mcp`, authentication: { required: false },
-    tools: ['list_subs', 'recommend_sub', 'get_sub'] };
+    tools: ['list_subs', 'recommend_sub', 'get_sub', 'find_referral_servers'], related: { referral_servers_json: `${SITE}/api/referral-servers` } };
   w('.well-known/mcp.json', JSON.stringify(card, null, 2));
   w('.well-known/mcp/server-card.json', JSON.stringify(card, null, 2));
   return { posts, urls, w };

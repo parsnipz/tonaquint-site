@@ -5,9 +5,13 @@
   "scripts": {
     "build": "node scripts/build.mjs",
     "test": "node --test test/*.test.mjs",
-    "dev": "node scripts/build.mjs && node scripts/dev-server.mjs"
+    "dev": "node scripts/build.mjs && node scripts/dev-server.mjs",
+    "finder": "node scripts/run-finder.mjs"
   },
   "engines": {
     "node": ">=20"
+  },
+  "dependencies": {
+    "@vercel/blob": "^2.0.0"
   }
 }
